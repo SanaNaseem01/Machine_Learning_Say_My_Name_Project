@@ -1,0 +1,12 @@
+-----VS Code libraries/packages installation-------
+pip install pipwin
+pipwin install pyaudio
+
+// convert text to speech
+pip install pyttsx3
+
+// Reading excel in python
+pip install openpyxl
+
+// converting to phonetics
+pip install eng_to_ipa

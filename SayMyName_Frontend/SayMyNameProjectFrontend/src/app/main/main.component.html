@@ -1,0 +1,106 @@
+<div class="conatiner">
+    <div class="header">
+        <span class="title main">
+            Say My Name
+        </span>
+    </div>
+    <div class="content">
+        <div class="main-content">
+            <div class="content-text-1">Hi there !</div>
+            <div class="content-text-2">What is your name ?</div>
+        </div>
+        <div class="search-conatiner" style=" padding-top: 1% !important;
+        padding-left: 21% !important;">
+            <div class="search-bar"
+                style="width: 100%; max-width: 700px; background: rgba(255,255, 255, 0.2); display: flex; align-items: center; border-radius: 60px; padding: 0px 20px; backdrop-filter: blur(4px) saturate(180%);">
+                <input type="text" placeholder="enter student ID and name seperated by ':'" name="search"
+                    [(ngModel)]="studentDetails">
+                <button type="submit" (click)="handleUserAction('search', studentDetails)">
+                    <span>Go</span>
+                </button>
+            </div>
+        </div>
+        <ng-template [ngIf]="display_content_card === true && phoneticName != undefined">
+            <div class="content-card">
+                <mat-card class="example-card">
+                    <div class="display-phonetics">
+                        <span style="font-size: 15px; margin-left: 32%;">Phonetics : {{ this.phoneticName }}</span>
+                        <span style="margin-left:4%;"><app-speech-synthesis
+                                [phoneticName]="username"></app-speech-synthesis></span>
+                    </div>
+                    <ng-template [ngIf]="soundsCorrectFlag === true">
+                        <div class="condition">
+                            <div class="text">
+                                Sounds Correct ?
+                            </div>
+                            <div>
+                                <span><button class="decision-button correct"
+                                        (click)="handleUserAction('phonetics-correct', '')"><mat-icon
+                                            class="decision-icon">done_all</mat-icon></button></span>
+                                <span><button class="decision-button wrong"
+                                        (click)="handleUserAction('phonetics-wrong','' )"><mat-icon
+                                            class="decision-icon">clear</mat-icon></button></span>
+                            </div>
+                        </div>
+                    </ng-template>
+
+                    <ng-template [ngIf]="soundsWrongFlag === true">
+                        <div class="condition">
+                            <div class="text">
+                                Would you like to speak out your name ?
+                            </div>
+                            <div style="margin-bottom: 25px; margin-top: 10px;">
+                                <ng-template [ngIf]="hide_default_recording_icon === true">
+                                    <span (click)="handleUserAction('start_recording', '')"><mat-icon
+                                            class="volume-icon">mic_none</mat-icon></span>
+                                    <div class="info-text"> ( Please click on the mic to start recording )</div>
+                                </ng-template>
+                                <ng-template [ngIf]="start_recording === true">
+                                    <div class="timer-group">
+                                        <span><mat-icon class="volume-icon" style="color: black;">mic</mat-icon></span>
+                                    </div>
+                                    <audio controls="" *ngIf="url">
+                                        <source [src]="sanitize(url)" type="audio/wav">
+                                    </audio>
+                                    <div class="button-group">
+                                        <span><button class="stop-recording"
+                                                (click)="handleUserAction('stop_recording', '')"><mat-icon
+                                                    class="stop-icon">stop</mat-icon><span
+                                                    class="stop-recording-text">stop
+                                                    recording</span></button></span>
+                                        <span><button
+                                                [ngClass]="disable_re_record ? 'rerecord-diabled' : 'rerecord-enabled'"
+                                                class="re-record" (click)="handleUserAction('re-record', '')"
+                                                [disabled]="disable_re_record"><mat-icon
+                                                    class="rerecord-icon">autorenew</mat-icon><span
+                                                    class="stop-recording-text">re-record</span></button></span>
+                                    </div>
+
+                                </ng-template>
+                                <ng-template [ngIf]="disable_re_record === false">
+                                    <span class="final-text">Great Captured !</span>
+                                </ng-template>
+                            </div>
+                        </div>
+                    </ng-template>
+
+                    <ng-template [ngIf]="displayGreatCapturedFlag === true">
+                        <span class="final-text" style="text-align: center;">Great Captured !</span>
+                    </ng-template>
+                    <ng-template [ngIf]="tempMsg === true">
+                        <span class="final-text" style="text-align: center;">Thanks for your feedback.</span>
+                    </ng-template>
+                </mat-card>
+            </div>
+        </ng-template>
+    </div>
+    <footer>
+        <div class="footer-div">
+            <p class="footer-content">Copyright &copy;2023 SayMyName; Loyalist College, Belleville, Canada. All rights
+                reserved.</p>
+        </div>
+    </footer>
+</div>
+
+<ngx-ui-loader fgsColor="white" bgsColor="white" fgsType="fading-circle" text="Please Wait..." textColor="white"
+    textPosition="center-center" pbColor="white"></ngx-ui-loader>
